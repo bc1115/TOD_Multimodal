@@ -87,9 +87,13 @@ Brain_func_CV <- scale(Brain_func) %*% CCA_model$v
 ```
 
 ##T-test of struc and func CV between groups
-```{r, t-tests struc and func CV, echo = FALSE, include=TRUE}
+```{r, t-tests struc and func CV, echo = TRUE, include=TRUE}
 t.test(Brain_struc_CV[1:38,], Brain_struc_CV[39:69,])
 t.test(Brain_func_CV[1:38,], Brain_func_CV[39:69,])
+Brain_struc_CV_diff <- aov(Brain_struc_CV ~dx + age + sex + cnr, data=TOD_T1)
+summary(Brain_struc_CV_diff)
+Brain_func_CV_diff <- aov(Brain_func_CV ~dx + age + sex + rmsd, data=TOD_T1)
+summary(Brain_func_CV_diff)
 ```
 
 ##Linear regression of struc and func CV with age, dx, and age by dx interaction 
@@ -177,3 +181,41 @@ summary(fALFF_ADOS)
 ggplot(TOD_T1, mapping = aes(x = fALFF_CV, y = ADOS_CSS)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
 ```
 
+#Analysis of individual ROIs derived from CCA of SA and fALFF 
+```{r, LM of SA and fALFF ROI, echo = FALSE, include=TRUE}
+inferiortemporal_area_age_dx = lm(inferiortemporal_area ~ dx + age + cnr + sex + dx:age, data=TOD_T1_CCA)
+summary(inferiortemporal_area_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = inferiortemporal_area, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+lateralorbitofrontal_area_age_dx = lm(lateralorbitofrontal_area ~ dx + age + cnr + sex + dx:age, data=TOD_T1_CCA)
+summary(lateralorbitofrontal_area_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = lateralorbitofrontal_area, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+parsorbitalis_area_age_dx = lm(parsorbitalis_area ~ dx + age + cnr + sex + dx:age, data=TOD_T1_CCA)
+summary(parsorbitalis_area_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = parsorbitalis_area, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+supramarginal_area_age_dx = lm(supramarginal_area ~ dx + age + cnr + sex + dx:age, data=TOD_T1_CCA)
+summary(supramarginal_area_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = supramarginal_area, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+caudalmiddlefrontal_fALFF_age_dx = lm(caudalmiddlefrontal_fALFF ~ dx + age + rmsd + sex + dx:age, data=TOD_T1_CCA)
+summary(caudalmiddlefrontal_fALFF_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = caudalmiddlefrontal_fALFF, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+fusiform_fALFF_age_dx = lm(fusiform_fALFF ~ dx + age + rmsd + sex + dx:age, data=TOD_T1_CCA)
+summary(fusiform_fALFF_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = fusiform_fALFF, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+medialorbitofrontal_fALFF_age_dx = lm(medialorbitofrontal_fALFF ~ dx + age + rmsd + sex + dx:age, data=TOD_T1_CCA)
+summary(medialorbitofrontal_fALFF_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = medialorbitofrontal_fALFF, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+rostralmiddlefrontal_fALFF_age_dx = lm(rostralmiddlefrontal_fALFF ~ dx + age + rmsd + sex + dx:age, data=TOD_T1_CCA)
+summary(rostralmiddlefrontal_fALFF_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = rostralmiddlefrontal_fALFF, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+superiorfrontal_fALFF_age_dx = lm(superiorfrontal_fALFF ~ dx + age + rmsd + sex + dx:age, data=TOD_T1_CCA)
+summary(superiorfrontal_fALFF_age_dx)
+ggplot(TOD_T1_CCA, mapping = aes(x = age, y = superiorfrontal_fALFF, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+```

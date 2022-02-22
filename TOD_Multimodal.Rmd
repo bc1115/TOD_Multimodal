@@ -94,7 +94,7 @@ Brain_func_CV_diff <- aov(Brain_func_CV ~dx + age + sex + rmsd, data=TOD_T1)
 summary(Brain_func_CV_diff)
 ```
 
-##Linear regression of struc and func CV with age, dx, and age by dx interaction 
+##Linear regression of struc and func CV with age and dx 
 ```{r, LM of struc and func CV, echo = FALSE, warning=FALSE, include=TRUE}
 Struc_age_dx = lm(Brain_struc_CV ~ dx + age + cnr + sex + dx:age, data=TOD_T1)
 summary(Struc_age_dx)

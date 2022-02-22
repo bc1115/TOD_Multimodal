@@ -2,9 +2,7 @@
 title: "TOD_Multimodal_analysis"
 author: "Bosi Chen"
 date: "2/22/2022"
-output: 
-  html_document:
-    toc: TRUE
+output: html_document
 ---
 
 ```{r setup, include=FALSE}

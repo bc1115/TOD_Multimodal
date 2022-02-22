@@ -21,7 +21,9 @@ library(tableone)
 library(pander)
 library(PMA)
 library(tidyr)
+
 options(digits = 4, scipen = 999)
+
 knitr::opts_chunk$set(warning=FALSE, message=FALSE, error = FALSE)
 ```
 
@@ -179,7 +181,6 @@ ggplot(TOD_T1, mapping = aes(x = fALFF_CV, y = ADOS_CSS)) + geom_point() + geom_
 
 #Analysis of individual ROIs derived from CCA of SA and fALFF 
 ##Linear regression of individual ROI SA fALFF with age and dx 
-
 ```{r, LM of SA and fALFF ROI, echo = FALSE, warning=FALSE, include=TRUE}
 inferiortemporal_area_age_dx = lm(inferiortemporal_area ~ dx + age + cnr + sex + dx:age, data=TOD_T1_CCA)
 summary(inferiortemporal_area_age_dx)

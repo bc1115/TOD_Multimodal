@@ -2,7 +2,9 @@
 title: "TOD_Multimodal_analysis"
 author: "Bosi Chen"
 date: "2/22/2022"
-output: html_document
+output:   
+  html_document:
+    toc: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -72,7 +74,7 @@ qplot(TOD_T1_TD$age,
 ```
 
 #CCA model of SA/CT with fALFF/ReHo 
-```{r, CCA of raw SA/CT with fALFF/RehO, echo = FALSE, include=FALSE}
+```{r, CCA of raw SA/CT with fALFF/RehO, echo = FALSE, warning=FALSE, include=FALSE}
 CCA_model <- CCA(Brain_struc, Brain_func, typex = "standard", typez = "standard", K = 1, niter = 15, trace = TRUE, standardize = TRUE)
 print(CCA_model)
 CCA_permute_model <- CCA.permute(Brain_struc, Brain_func, typex = "standard", typez = "standard", niter = 15, trace = TRUE, nperms = 25, standardize = TRUE)
@@ -81,7 +83,7 @@ Brain_func_CV <- scale(Brain_func) %*% CCA_model$v
 ```
 
 ##T-test of struc and func CV between groups
-```{r, t-tests struc and func CV, echo = TRUE, include=TRUE}
+```{r, t-tests struc and func CV, echo = TRUE, warning=FALSE, include=TRUE}
 t.test(Brain_struc_CV[1:38,], Brain_struc_CV[39:69,])
 t.test(Brain_func_CV[1:38,], Brain_func_CV[39:69,])
 Brain_struc_CV_diff <- aov(Brain_struc_CV ~dx + age + sex + cnr, data=TOD_T1)
@@ -91,7 +93,7 @@ summary(Brain_func_CV_diff)
 ```
 
 ##Linear regression of struc and func CV with age, dx, and age by dx interaction 
-```{r, LM of struc and func CV, echo = FALSE, include=TRUE}
+```{r, LM of struc and func CV, echo = FALSE, warning=FALSE, include=TRUE}
 Struc_age_dx = lm(Brain_struc_CV ~ dx + age + cnr + sex + dx:age, data=TOD_T1)
 summary(Struc_age_dx)
 ggplot(TOD_T1, mapping = aes(x = age, y = Brain_struc_CV, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
@@ -102,7 +104,7 @@ ggplot(TOD_T1, mapping = aes(x = age, y = Brain_func_CV, colour = dx_name)) + ge
 ```
 
 ##Linear regression of struc and func CV with Mullen ELC 
-```{r, LM of struc and funct CV with Mullen ELC, echo = FALSE, include=TRUE}
+```{r, LM of struc and funct CV with Mullen ELC, echo = FALSE, warning=FALSE, include=TRUE}
 Struc_ELC = lm(Mullen_ELC ~ dx + age + cnr + sex + Brain_struc_CV + Brain_struc_CV:dx, data=TOD_T1)
 summary(Struc_ELC)
 ggplot(TOD_T1, mapping = aes(x = Brain_struc_CV, y = Mullen_ELC, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
@@ -113,7 +115,7 @@ ggplot(TOD_T1, mapping = aes(x = Brain_func_CV, y = Mullen_ELC, colour = dx_name
 ```
 
 ##Linear regression of struc and func CV with ADOS CSS
-```{r, LM of struc and funct CV with ADOS CSS, echo = FALSE, include=TRUE}
+```{r, LM of struc and funct CV with ADOS CSS, echo = FALSE, warning=FALSE, include=TRUE}
 Struc_ADOS = lm(ADOS_CSS ~age + cnr + sex + Brain_struc_CV, data=TOD_T1)
 summary(Struc_ADOS)
 ggplot(TOD_T1, mapping = aes(x = Brain_struc_CV, y = ADOS_CSS)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
@@ -124,7 +126,7 @@ ggplot(TOD_T1, mapping = aes(x = Brain_func_CV, y = ADOS_CSS)) + geom_point() + 
 ```
 
 #CCA model of SA with fALFF 
-```{r, CCA of raw SA with fALFF, echo = FALSE, include=FALSE}
+```{r, CCA of raw SA with fALFF, echo = FALSE, warning=FALSE, include=FALSE}
 CCA_model_SA_fALFF <- CCA(SA, fALFF, typex = "standard", typez = "standard", K = 1, niter = 15, trace = TRUE, standardize = TRUE)
 print(CCA_model_SA_fALFF)
 CCA_SA_fALFF_weights <- cbind(CCA_model_SA_fALFF[["u"]], CCA_model_SA_fALFF[["v"]])
@@ -133,7 +135,7 @@ fALFF_CV <- scale(fALFF)%*% CCA_model_SA_fALFF$v
 ```
 
 ##T-test of SA CV and fALFF CV between groups
-```{r, t-tests raw SA with fALFF, echo = TRUE, include=TRUE}
+```{r, t-tests raw SA with fALFF, echo = TRUE, warning=FALSE, include=TRUE}
 t.test(SA_CV[1:38,], SA_CV[39:69,])
 t.test(fALFF_CV[1:38,], fALFF_CV[39:69,])
 SA_CV_diff <- aov(SA_CV ~dx + age + sex + cnr, data=TOD_T1)
@@ -143,7 +145,7 @@ summary(fALFF_CV_diff)
 ```
 
 ##Linear regression of SA and fALFF CV with age, dx, and age by dx interaction 
-```{r, LM of SA and fALFF CV, echo = FALSE, include=TRUE}
+```{r, LM of SA and fALFF CV, echo = FALSE, warning=FALSE, include=TRUE}
 SA_age_dx = lm(SA_CV ~ dx + age + cnr + sex + dx:age, data=TOD_T1)
 summary(SA_age_dx)
 ggplot(TOD_T1, mapping = aes(x = age, y = SA_CV, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
@@ -154,7 +156,7 @@ ggplot(TOD_T1, mapping = aes(x = age, y = fALFF_CV, colour = dx_name)) + geom_po
 ```
 
 ##Linear regression of SA and fALFF CV with Mullen ELC 
-```{r, LM of SA and fALFF CV with Mullen ELC, echo = FALSE, include=TRUE}
+```{r, LM of SA and fALFF CV with Mullen ELC, echo = FALSE, warning=FALSE, include=TRUE}
 SA_ELC = lm(Mullen_ELC ~ dx + age + cnr + sex + SA_CV + SA_CV:dx, data=TOD_T1)
 summary(SA_ELC)
 ggplot(TOD_T1, mapping = aes(x = SA_CV, y = Mullen_ELC, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
@@ -165,7 +167,7 @@ ggplot(TOD_T1, mapping = aes(x = fALFF_CV, y = Mullen_ELC, colour = dx_name)) + 
 ```
 
 ##Linear regression of SA and fALFF CV with ADOS CSS
-```{r, LM of SA and fALFF CV with ADOS CSS, echo = FALSE, include=TRUE}
+```{r, LM of SA and fALFF CV with ADOS CSS, echo = FALSE, warning=FALSE, include=TRUE}
 SA_ADOS = lm(ADOS_CSS ~age + cnr + sex + SA_CV, data=TOD_T1)
 summary(SA_ADOS)
 ggplot(TOD_T1, mapping = aes(x = SA_CV, y = ADOS_CSS)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
@@ -177,7 +179,7 @@ ggplot(TOD_T1, mapping = aes(x = fALFF_CV, y = ADOS_CSS)) + geom_point() + geom_
 
 #Analysis of individual ROIs derived from CCA of SA and fALFF 
 ##Linear regression of individual ROI SA fALFF with age, dx, and age by dx interaction 
-```{r, LM of SA and fALFF ROI, echo = FALSE, include=TRUE}
+```{r, LM of SA and fALFF ROI, echo = FALSE, warning=FALSE, include=TRUE}
 inferiortemporal_area_age_dx = lm(inferiortemporal_area ~ dx + age + cnr + sex + dx:age, data=TOD_T1_CCA)
 summary(inferiortemporal_area_age_dx)
 ggplot(TOD_T1_CCA, mapping = aes(x = age, y = inferiortemporal_area, colour = dx_name)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
